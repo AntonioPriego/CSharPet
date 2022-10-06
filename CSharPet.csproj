@@ -7,4 +7,10 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="CSharPet\**" />
+    <EmbeddedResource Remove="CSharPet\**" />
+    <None Remove="CSharPet\**" />
+  </ItemGroup>
+
 </Project>

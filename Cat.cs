@@ -45,7 +45,7 @@ namespace CSharPet
                 clean = MyConstants.MAXVALUE;
             }
         }
-        private int happy;
+        private int happy; 
         public int Happy
         {
             get => happy;
@@ -68,11 +68,13 @@ namespace CSharPet
             Happy = 3;
             SetTimers();
 
+            /* CODE TO IMPLEMENT COMMAND PLAY
             var proc = Process.Start("./HolaMundo.exe");
             proc.WaitForExit();
             var exitCode = proc.ExitCode;
             Console.WriteLine(exitCode);
             Console.ReadLine();
+            */
 
             while (IsAlive())
             {
