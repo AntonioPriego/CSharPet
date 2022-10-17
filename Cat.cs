@@ -7,6 +7,7 @@ using System.Diagnostics;
 
 namespace CSharPet
 {
+    // The only one C#Pet at this time.
     public class Cat
     {
         // Timers.
@@ -20,19 +21,21 @@ namespace CSharPet
         CSharPetStatus currentStatus = CSharPetStatus.Regular;
 
         private int food; 
-        public int Food
+        public int Food // Food filling status.
         {
             get => food;
             set
             {
                 if (value >= MyConstants.MINVALUE && value <= MyConstants.MAXVALUE)
                     food = value;
+                else if (value < MyConstants.MINVALUE)
+                    food = 0;
                 else
                     food = MyConstants.MAXVALUE;
             }
         }
         private int clean; 
-        public int Clean
+        public int Clean // Clean filling status.
         {
             get => clean;
             set
@@ -46,7 +49,7 @@ namespace CSharPet
             }
         }
         private int happy; 
-        public int Happy
+        public int Happy // Happy filling status.
         {
             get => happy;
             set
@@ -61,14 +64,20 @@ namespace CSharPet
         }
 
         // Methods.
+
+        // The alive loop for the C#Pet.
         public void Play()
         {
+            // Set some initial parametres
             Food = 8;
             Clean = 5;
             Happy = 3;
             SetTimers();
 
-            /* CODE TO IMPLEMENT COMMAND PLAY
+            /*
+            CODE TO IMPLEMENT COMMAND PLAY
+            (With the C#Pet)(Probably a simple snake game).
+
             var proc = Process.Start("./HolaMundo.exe");
             proc.WaitForExit();
             var exitCode = proc.ExitCode;
@@ -101,6 +110,7 @@ namespace CSharPet
             StopTimers();
         }
 
+        // Print a visual status for the property indicated
         private void PrintPropStatus(string prop)
         {
             int propCount;
@@ -131,6 +141,7 @@ namespace CSharPet
             Console.WriteLine();
         }
 
+        // Print the cat depending on the current status
         private void PrintCat()
         {
             Console.WriteLine("\t--------------------------------------- -------------------------------------------");
@@ -164,11 +175,13 @@ namespace CSharPet
             currentStatus = CSharPetStatus.Regular;
         }
 
+        // Return alive status. Dead when any status property reaches to 0.
         private bool IsAlive()
         {
             return (Food > 0 && Clean > 0 && Happy > 0);
         }
 
+        // Manage the all on screen info
         private void PrintAll()
         {
             Console.Clear();
@@ -182,9 +195,10 @@ namespace CSharPet
             newInfoToShow = false;
         }
 
+        // Initial config for the timers.
         private static void SetTimers()
         {
-            // Create timers with their intervals
+            // Create timers with their intervals.
             freqTimer = new System.Timers.Timer(MyConstants.REFRESH_MSECS);
             wearTimer = new System.Timers.Timer(MyConstants.REFRESH_MSECS);
 
@@ -198,6 +212,7 @@ namespace CSharPet
 
         }
 
+        // Closing timers.
         private static void StopTimers()
         {
             freqTimer.Stop();
@@ -206,27 +221,34 @@ namespace CSharPet
             wearTimer.Dispose();
         }
 
+        // Event when refresh screen timer is activated.
         private static void OnTimedFreqEvent(Object source, ElapsedEventArgs e)
         {
             newInfoToShow = true;
         }
+
+        // Event when C#Sharp wear timer is activated.
         private static void OnTimedWearEvent(Object source, ElapsedEventArgs e)
         {
             newWearToApply = true;
         }
 
+        // Read command from user considering refresh screen.
         private async Task TryReadCommand()
         {
             CancellationTokenSource source = new CancellationTokenSource();
             source.CancelAfter(TimeSpan.FromSeconds(MyConstants.REFRESH_SECS));
             Task<int> task = (Task<int>)Task.Run(() => ReadCommand(), source.Token);
         }
+
+        // Reading command from user event.
         private async Task ReadCommand()
         {
             command = await Console.In.ReadLineAsync();
             newInfoToShow = true;
         }
 
+        // Apply command readed
         private void RunCommand()
         {
             Random random = new Random();
@@ -249,18 +271,23 @@ namespace CSharPet
             command = string.Empty;
         }
 
+        // Feed C#Pet with random results.
         private void Feed()
         {
             Random random = new Random();
 
             Food += random.Next(1, 3);
         }
+
+        // Clean C#Pet with random results.
         private void CleanUp()
         {
             Random random = new Random();
 
             Clean += random.Next(1, 3);
         }
+
+        // Pet C#Pet with random results.
         private void Pet()
         {
             Random random = new Random();
@@ -270,6 +297,7 @@ namespace CSharPet
             currentStatus = CSharPetStatus.Happy;
         }
 
+        // Apply the wear to the status property.
         private void ApplyWear()
         {
             Random random = new Random();

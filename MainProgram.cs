@@ -12,7 +12,7 @@ namespace CSharPet
             Console.ReadLine();
             Console.Clear();
 
-            pet.Play();
+            pet.Play(); // Alive loop for C#Pet.
 
             Console.WriteLine("YOUR C#Pet IS NOT ALIVE ANYMORE :_(");
             Console.WriteLine("Press enter to exit");
